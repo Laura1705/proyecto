@@ -1,0 +1,56 @@
+%  Leer los archivos de las bases de datos
+datos_pacientes = readtable('data.csv');
+datos_pacientes_1 = readtable('breast cancer.csv');
+datos_pacientes_2 = readtable('bcsc_risk_factors_summarized1_092020.csv');
+datos_pacientes_3 = readtable('bcsc_risk_factors_summarized2_092020.csv');
+datos_pacientes_4 = readtable('bcsc_risk_factors_summarized3_092020.csv');
+
+%  Encuesta para recopilar datos demográficos
+disp('Por favor, responde las siguientes preguntas:');
+edad = input('¿Cuál es tu edad? ');
+lesiones = input('¿Presencia de lesiones benignas y/o malignas? (Si/No)  (cuáles y dónde) ', 's');
+Fumar = input('¿Fuma o fumó alguna vez en su vida? (Si/No) ');
+alcohol = input('¿Ingiere bebidas alcohólicas? Si_ No_ ');
+grasa1 = input('¿Consume grasa animal?Si_ No_ ');
+grasa2 = input('¿Con qué frecuencia consume grasa animal? Nunca: _ Ocasionalmente: _ Frecuentemente:_ ');
+estatura = input('¿Cul es su Estatura(cm)?');
+IMC = input('¿Cual es su IMC? ');
+anticonceptivos = input(' ¿Ha utilizado anticonceptivos hormonales alguna vez en su vida? (Si/No)  ');
+edad_menstruacion = input(' Edad de la primera menstruación : ');
+parto = input(' ¿Ha tenido partos? (Si/No)  ');
+partos = input(' Número de partos: ');
+lactancia = input('﻿﻿ ﻿﻿Dio lactancia materna:(Si/No)  ');
+
+n = 1; % Número de iteraciones del bucle for
+
+for i = 1:n
+    % Coloca aquí el código que deseas ejecutar en cada iteración
+    parto = input(' ¿Ha tenido partos? (Si/No): ');
+    % Pregunta al usuario si desea continuar
+    respuesta = input('¿Desea continuar? (si/no): ', 's');
+    partos = input(' Número de partos: ');
+    lactancia = input('﻿﻿ ﻿﻿Dio lactancia materna: Si_No_ ');
+    % Verifica la respuesta
+    if strcmpi(respuesta, 'no')
+        break; % Sale del bucle si la respuesta es "no"
+    end
+end
+
+Edad_menopausia = input('﻿﻿Edad de la menopausia: ');
+Antecedentes = input('﻿﻿﻿﻿Antecedentes patológicos familiares de cáncer de mama?Si_No_? ﻿﻿Sin antecedentes_ ﻿﻿Con antecedentes_:');
+birad1 = input('﻿﻿ Presentó prueba de birads ');
+Birad = input('﻿﻿ ¿Cual fue su prueba de Birads');
+peso = input('﻿﻿ Edad del primer parto: ');
+
+
+paciente_nuevo = table(edad,lesiones,fumar,alcohol,grasa1,grasa2,estatura,IMC,anticonceptivos,edad_menstruacion,parto,partos,lactancia, Edad_menopausia,Antecedentes,birad1,Birad,peso ); % Crear tabla con las respuestas de la encuesta
+% Filtrar pacientes en la base de datos que coincidan con la edad y género del paciente nuevo
+pacientes_coincidentes = datos_pacientes(datos_pacientes.Edad == edad & strcmp(datos_pacientes.lesiones, lesiones) & strcmp(datos_pacientes.fumar, fumar) & strcmp(datos_pacientes.alcohol, alcohol) & strcmp(datos_pacientes.grasa1, grasa1) & strcmp(datos_pacientes.grasa2, grasa2) & strcmp(datos_pacientes.estatura, estatura) & strcmp(datos_pacientes.IMC, IMC) & strcmp(datos_pacientes.anticonceptivos, anticonceptivos) & strcmp(datos_pacientes.edad_menstruacion, edad_menstruacion) & strcmp(datos_pacientes.parto, parto) & strcmp(datos_pacientes.partos, partos);
+
+
+% Dictaminar la probabilidad de tener cáncer de mama
+if height(pacientes_coincidentes) > 12
+    disp('Hay una alta probabilidad de tener cáncer de mama.');
+else
+    disp('No hay una alta probabilidad de tener cáncer de mama.');
+end
